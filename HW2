@@ -1,0 +1,151 @@
+
+#1.
+```{r}
+library('RODBC')
+myconn<-odbcConnect("QBS181","lliu","lliu@qbs181")
+IC_Phonecall<-sqlQuery(myconn,"select * from Phonecall")
+IC_Phonecall_Encounter<-sqlQuery(myconn,"select * from PhoneCall_Encounter")
+
+IC_Phonecall_Merged<-merge(IC_Phonecall, IC_Phonecall_Encounter, by.x="tri_CustomerIDEntityReference", by.y="CustomerId")
+
+IC_Phonecall_Merged$EnrollmentGroup[IC_Phonecall_Merged$EncounterCode=='125060000']<-'Clinical Alert'
+IC_Phonecall_Merged$EnrollmentGroup[IC_Phonecall_Merged$EncounterCode=='125060001']<-'Health Coaching'
+IC_Phonecall_Merged$EnrollmentGroup[IC_Phonecall_Merged$EncounterCode=='125060002']<-'Technixal Question'
+IC_Phonecall_Merged$EnrollmentGroup[IC_Phonecall_Merged$EncounterCode=='125060003']<-'Administrative'
+IC_Phonecall_Merged$EnrollmentGroup[IC_Phonecall_Merged$EncounterCode=='125060004']<-'Other'
+IC_Phonecall_Merged$EnrollmentGroup[IC_Phonecall_Merged$EncounterCode=='125060005']<-'Lack of engagement'
+
+IC_Phonecall_Merged
+```
+
+#2.
+```{r}
+num_Clinical<-length(which(IC_Phonecall_Merged$EncounterCode=='125060000'))
+num_Health<-length(which(IC_Phonecall_Merged$EncounterCode=='125060001'))
+num_Technixal<-length(which(IC_Phonecall_Merged$EncounterCode=='125060002'))
+num_Admini<-length(which(IC_Phonecall_Merged$EncounterCode=='125060003'))
+num_Other<-length(which(IC_Phonecall_Merged$EncounterCode=='125060004'))
+num_Lack<-length(which(IC_Phonecall_Merged$EncounterCode=='125060005'))
+
+num_Clinical
+num_Health
+num_Technixal
+num_Admini
+num_Other
+num_Lack
+```
+
+#3.
+```{r}
+IC_CallDuration<-sqlQuery(myconn,"select * from CallDuration")
+IC_DurationEncounter_Merged<-merge(IC_Phonecall_Encounter, IC_CallDuration, by.x = "CustomerId", by.y = "tri_CustomerIDEntityReference")
+IC_DurationEncounter_Merged
+```
+
+
+
+#4.
+```{r}
+num_Inbound<-length(which(IC_DurationEncounter_Merged$CallType==1))
+num_Outbound<-length(which(IC_DurationEncounter_Merged$CallType==2))
+num_Inbound
+num_Outbound
+
+num_NoResponse<-length(which(IC_DurationEncounter_Merged$CallOutcome==1))
+num_LeftVoiceMail<-length(which(IC_DurationEncounter_Merged$CallOutcome==2))
+num_Successful<-length(which(IC_DurationEncounter_Merged$CallOutcome==3))
+num_NoResponse
+num_LeftVoiceMail
+num_Successful
+
+Dur_Clinical<-sum(IC_DurationEncounter_Merged$CallDuration[which(IC_DurationEncounter_Merged$EncounterCode=='125060000')])
+Dur_Health<-sum(IC_DurationEncounter_Merged$CallDuration[which(IC_DurationEncounter_Merged$EncounterCode=='125060001')])
+Dur_Technixal<-sum(IC_DurationEncounter_Merged$CallDuration[which(IC_DurationEncounter_Merged$EncounterCode=='125060002')])
+Dur_Admini<-sum(IC_DurationEncounter_Merged$CallDuration[which(IC_DurationEncounter_Merged$EncounterCode=='125060003')])
+Dur_Other<-sum(IC_DurationEncounter_Merged$CallDuration[which(IC_DurationEncounter_Merged$EncounterCode=='125060004')])
+Dur_Lack<-sum(IC_DurationEncounter_Merged$CallDuration[which(IC_DurationEncounter_Merged$EncounterCode=='125060005')])
+Dur_Clinical
+Dur_Health
+Dur_Technixal
+Dur_Admini
+Dur_Other
+Dur_Lack
+```
+
+
+#5.
+```{r}
+IC_Demographics<-sqlQuery(myconn,"select * from Demographics")
+IC_Conditions<-sqlQuery(myconn,"select * from Conditions")
+IC_TextMessages<-sqlQuery(myconn,"select * from TextMessages")
+
+IC_DC_Merged<-merge(IC_Demographics, IC_Conditions,by.x = "contactid", by.y = "tri_patientid")
+IC_TextDC_Merged<-merge(IC_DC_Merged, IC_TextMessages,by.x = "contactid", by.y = "tri_contactId")
+
+difftime(strptime("1/1/17", format = "%d/%m/%Y"),
+strptime("9/9/16", format = "%d/%m/%Y"),units="weeks")
+TimeofWeeks<-16.28571
+
+num_system_perweek<-length(which(IC_TextDC_Merged$SenderName=='System'))/TimeofWeeks
+num_customer_perweek<-length(which(IC_TextDC_Merged$SenderName=='Customer'))/TimeofWeeks
+num_clinician_perweek<-length(which(IC_TextDC_Merged$SenderName=='Clinician'))/TimeofWeeks
+num_system_perweek
+num_customer_perweek
+num_clinician_perweek
+
+mergeinsql <- sqlQuery(myconn, "select A.*, B.*, C.* into [lliu].mergeall from [dbo].TextMessages A 
+left join [dbo].Conditions B
+on A.tri_contactId = B.tri_patientid
+left join [dbo].Demographics C
+on A.tri_contactId = C.contactid
+")
+
+mergeall <- sqlQuery(myconn, "select * from [lliu].mergeall")
+
+weeks <- sqlQuery(myconn, "Alter Table [lliu].mergeall
+add weeks NVARCHAR(255)
+update [lliu].mergeall
+set weeks = Datepart(wk, TextSentDate) ")
+
+num_byweeks <- sqlQuery(myconn, "SELECT SenderName as Sender, count(weeks) as number_of_texts, weeks as weeks into [lliu].tableplot
+from [lliu].mergeall
+group by SenderName, weeks
+order by Sender, weeks
+")
+
+tableplot <- sqlQuery(myconn, "select Top 10 * from [lliu].tableplot")
+head(tableplot)
+
+library(ggplot2)
+library(dplyr)
+tableplot %>%
+  group_by(Sender) %>%
+  ggplot(., aes(x = weeks, y = number_of_texts, color = Sender)) + geom_line() + theme_minimal()
+```
+
+
+#6.
+```{r}
+chronic_condition <-sqlQuery(myconn, "select A.*, B.tri_name into [lliu].chronic_condition from TextMessages A 
+left join Conditions B 
+on A.tri_contactId = B.tri_patientid
+where B.tri_name = 'COPD';
+")
+
+chronic_byweek <- sqlQuery(myconn, "Alter Table [lliu].chronic_condition
+add weeks NVARCHAR(255)
+update [lliu].chronic_condition
+set weeks = Datepart(wk, TextSentDate) ")
+
+weeksnum <- sqlQuery(myconn, "select weeks, count(weeks) as 'number_of_text'
+into lliu.tableplot2
+from lliu.chronic_condition
+group by weeks
+order by weeks")
+
+tableplot2 <- sqlQuery(myconn, "select * from lliu.tableplot2")
+head(tableplot2)
+
+tableplot2 %>%
+  ggplot(., aes(x = weeks, y = number_of_text)) + geom_line() + theme_minimal()
+```
