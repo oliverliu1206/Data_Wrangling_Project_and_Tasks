@@ -16,6 +16,11 @@ b)  Insert sex=male if code=1
 c)  Insert sex=other if code =167410000 etc.
 4.   Create a new column “Age group” and create age groups with an interval of 25 yrs. for example 0-25 years as ‘0-25’, 26-50 as “26-50” and so on...
 
+For task1, I used the alter table and update table
+For task2, I updated the table with where condition
+For task3, I altered the table and add a column, then updated the table with where condition
+For task4, I combined the methods used above and used group function.
+
 For project2, there are six tasks.
 1.   Create a new column “Enrollment group” in the table Phonecalla)  Insert EnrollmentGroup=Clinical Alert :code is 125060000b)  Insert EnrollmentGroup =Health Coaching :code is 125060001c)  Insert EnrollmentGroup =Technixal Question: Code is 125060002d)  Insert EnrollmentGroup =Administrative: Code  is 125060003e)  Insert EnrollmentGroup =Other: Code  is 125060004f)   Insert EnrollmentGroup =Lack of engagement : Code  is 125060005
 2.   Obtain the # of records for each enrollment group
@@ -24,9 +29,15 @@ For project2, there are six tasks.
 5.   Merge the tables Demographics, Conditions and TextMessages. Find the # of texts/per week, by the type of sender. Draw a visual using ggplot to obtain # of texts and color it by the type of sender
 6.   Obtain  the  count  of  texts  based  on  the  chronic  condition  over  a  period  of time (say per week). Draw a visual using ggplot to obtain the counts
 
+For task1, I just used the which condition to set the value
+For task2, I used the length function
+For task3, I used the merge function(by.x, by.y) to merge tables
+For task5 and 6, I used ggplot function.
+
 For midterm, there are two tasks.
 1.  The DIQ_I.xpt(will be uploaded on canvas) file has some problems with its data (e.g., missing values, numeric columns stored as chars, etc.) and need to be cleaned before further use. a)  List the data-related issues you see in this data setb)  How will you address each data-related issue?c)  Give justification for why you chose a particular way to address each issue. For example, if you decide to address missing values by removing rows or filling empty data cells, justify your decision or if you want to create a PHI field like year of Birth
 2.  Clean the data by addressing each point listed in 1.
+In the midterm, I used the method of one hot coding and altered the properties of columns. Also, I droped some rows with too many missing values.
 
 For final project,
 1)  Consider  the  following  blood  pressure  dataset  (IC_BP_v2.csv).  Perform  the following operations
