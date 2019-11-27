@@ -1,0 +1,761 @@
+
+```{r}
+install.packages('Hmisc')
+install.packages('SASxport')
+library(SASxport) 
+data(DIQ)
+lookup.xport("C:/Users/olive/OneDrive/Desktop/QBS181 Midterm/DIQ_I.XPT")
+DIQ <- read.xport("C:/Users/olive/OneDrive/Desktop/QBS181 Midterm/DIQ_I.XPT")
+head (DIQ)
+write.csv(DIQ,'DIQ_I.csv')
+```
+
+
+```{r}
+library('RODBC')
+myconn<-odbcConnect("QBS181","lliu","lliu@qbs181")
+DIQ_I_Clean<-sqlQuery(myconn,"select * from lliu.DIQ_I")
+#How many missing values in the dataset
+sum(is.na(DIQ_I_Clean))
+
+```
+
+#For Values that are Refused or Don't Know, treated them as missing values.
+```{r}
+#For Values that are Refused or Don't Know, treated them as missing values.
+
+#For Column DIQ010, replace '7','9' with NA
+DIQ_I_Clean$DIQ010[DIQ_I_Clean$DIQ010==9]<-NA
+length(which(DIQ_I_Clean$DIQ010==9))
+DIQ_I_Clean$DIQ010[DIQ_I_Clean$DIQ010==7]<-NA
+length(which(DIQ_I_Clean$DIQ010==7))
+#For Column DID040, replace '777','999' with NA
+DIQ_I_Clean$DID040[DIQ_I_Clean$DID040==777]<-NA
+length(which(DIQ_I_Clean$DID040==777))
+DIQ_I_Clean$DID040[DIQ_I_Clean$DID040==999]<-NA
+length(which(DIQ_I_Clean$DID040==999))
+#For Column DIQ160, replace '7','9' with NA
+DIQ_I_Clean$DIQ160[DIQ_I_Clean$DIQ160==9]<-NA
+length(which(DIQ_I_Clean$DIQ160==9))
+DIQ_I_Clean$DIQ160[DIQ_I_Clean$DIQ160==7]<-NA
+length(which(DIQ_I_Clean$DIQ160==7))
+#For Column DIQ170, replace '7','9' with NA
+DIQ_I_Clean$DIQ170[DIQ_I_Clean$DIQ170==9]<-NA
+length(which(DIQ_I_Clean$DIQ170==9))
+DIQ_I_Clean$DIQ170[DIQ_I_Clean$DIQ170==7]<-NA
+length(which(DIQ_I_Clean$DIQ170==7))
+#For Column DIQ172, replace '7','9' with NA
+DIQ_I_Clean$DIQ172[DIQ_I_Clean$DIQ172==9]<-NA
+length(which(DIQ_I_Clean$DIQ172==9))
+DIQ_I_Clean$DIQ172[DIQ_I_Clean$DIQ172==7]<-NA
+length(which(DIQ_I_Clean$DIQ172==7))
+#For Column DIQ180, replace '7','9' with NA
+DIQ_I_Clean$DIQ180[DIQ_I_Clean$DIQ180==9]<-NA
+length(which(DIQ_I_Clean$DIQ180==9))
+DIQ_I_Clean$DIQ180[DIQ_I_Clean$DIQ180==7]<-NA
+length(which(DIQ_I_Clean$DIQ180==7))
+#For Column DIQ050, replace '7','9' with NA
+DIQ_I_Clean$DIQ050[DIQ_I_Clean$DIQ050==9]<-NA
+length(which(DIQ_I_Clean$DIQ050==9))
+DIQ_I_Clean$DIQ050[DIQ_I_Clean$DIQ050==7]<-NA
+length(which(DIQ_I_Clean$DIQ050==7))
+#For Column DID060, replace '777','999' with NA
+DIQ_I_Clean$DID060[DIQ_I_Clean$DID060==999]<-NA
+length(which(DIQ_I_Clean$DID060==999))
+DIQ_I_Clean$DID060[DIQ_I_Clean$DID060==777]<-NA
+length(which(DIQ_I_Clean$DID060==777))
+#For Column DIQ070, replace '7','9' with NA
+DIQ_I_Clean$DIQ070[DIQ_I_Clean$DIQ070==9]<-NA
+length(which(DIQ_I_Clean$DIQ070==9))
+DIQ_I_Clean$DIQ070[DIQ_I_Clean$DIQ070==7]<-NA
+length(which(DIQ_I_Clean$DIQ070==7))
+#For Column DIQ230, replace '7','9' with NA
+DIQ_I_Clean$DIQ230[DIQ_I_Clean$DIQ230==9]<-NA
+length(which(DIQ_I_Clean$DIQ230==9))
+DIQ_I_Clean$DIQ230[DIQ_I_Clean$DIQ230==7]<-NA
+length(which(DIQ_I_Clean$DIQ230==7))
+#For Column DIQ240, replace '7','9' with NA
+DIQ_I_Clean$DIQ240[DIQ_I_Clean$DIQ240==9]<-NA
+length(which(DIQ_I_Clean$DIQ240==9))
+DIQ_I_Clean$DIQ240[DIQ_I_Clean$DIQ240==7]<-NA
+length(which(DIQ_I_Clean$DIQ240==7))
+#For Column DID250, replace '7777','9999' with NA
+DIQ_I_Clean$DID250[DIQ_I_Clean$DID250==9999]<-NA
+length(which(DIQ_I_Clean$DID250==9999))
+DIQ_I_Clean$DID250[DIQ_I_Clean$DID250==7777]<-NA
+length(which(DIQ_I_Clean$DID250==7777))
+#For Column DIQ275, replace '7','9' with NA
+DIQ_I_Clean$DIQ275[DIQ_I_Clean$DIQ275==9]<-NA
+length(which(DIQ_I_Clean$DIQ275==9))
+DIQ_I_Clean$DIQ275[DIQ_I_Clean$DIQ275==7]<-NA
+length(which(DIQ_I_Clean$DIQ275==7))
+#For Column DIQ280, replace '777','999' with NA
+DIQ_I_Clean$DIQ280[DIQ_I_Clean$DIQ280==999]<-NA
+length(which(DIQ_I_Clean$DIQ280==999))
+DIQ_I_Clean$DIQ280[DIQ_I_Clean$DIQ280==777]<-NA
+length(which(DIQ_I_Clean$DIQ280==777))
+#For Column DIQ291, replace '777','999' with NA
+DIQ_I_Clean$DIQ291[DIQ_I_Clean$DIQ291==99]<-NA
+length(which(DIQ_I_Clean$DIQ291==99))
+DIQ_I_Clean$DIQ291[DIQ_I_Clean$DIQ291==77]<-NA
+length(which(DIQ_I_Clean$DIQ291==77))
+#For Column DIQ300S, replace '7777','9999' with NA
+DIQ_I_Clean$DIQ300S[DIQ_I_Clean$DIQ300S==9999]<-NA
+length(which(DIQ_I_Clean$DIQ300S==9999))
+DIQ_I_Clean$DIQ300S[DIQ_I_Clean$DIQ300S==7777]<-NA
+length(which(DIQ_I_Clean$DIQ300S==7777))
+#For Column DIQ300D, replace '7777','9999' with NA
+DIQ_I_Clean$DIQ300D[DIQ_I_Clean$DIQ300D==9999]<-NA
+length(which(DIQ_I_Clean$DIQ300D==9999))
+DIQ_I_Clean$DIQ300D[DIQ_I_Clean$DIQ300D==7777]<-NA
+length(which(DIQ_I_Clean$DIQ300D==7777))
+#For Column DID310S, replace '7777','9999' with NA
+DIQ_I_Clean$DID310S[DIQ_I_Clean$DID310S==9999]<-NA
+length(which(DIQ_I_Clean$DID310S==9999))
+DIQ_I_Clean$DID310S[DIQ_I_Clean$DID310S==7777]<-NA
+length(which(DIQ_I_Clean$DID310S==7777))
+#For Column DID310D, replace '7777','9999' with NA
+DIQ_I_Clean$DID310D[DIQ_I_Clean$DID310D==9999]<-NA
+length(which(DIQ_I_Clean$DID310D==9999))
+DIQ_I_Clean$DID310D[DIQ_I_Clean$DID310D==7777]<-NA
+length(which(DIQ_I_Clean$DID310D==7777))
+#For Column DID320, replace '7777','9999' with NA
+DIQ_I_Clean$DID320[DIQ_I_Clean$DID320==9999]<-NA
+length(which(DIQ_I_Clean$DID320==9999))
+DIQ_I_Clean$DID320[DIQ_I_Clean$DID320==7777]<-NA
+length(which(DIQ_I_Clean$DID320==7777))
+#For Column DID330, replace '7777','9999' with NA
+DIQ_I_Clean$DID330[DIQ_I_Clean$DID330==9999]<-NA
+length(which(DIQ_I_Clean$DID330==9999))
+DIQ_I_Clean$DID330[DIQ_I_Clean$DID330==7777]<-NA
+length(which(DIQ_I_Clean$DID330==7777))
+#For Column DID341, replace '7777','9999' with NA
+DIQ_I_Clean$DID341[DIQ_I_Clean$DID341==9999]<-NA
+length(which(DIQ_I_Clean$DID341==9999))
+DIQ_I_Clean$DID341[DIQ_I_Clean$DID341==7777]<-NA
+length(which(DIQ_I_Clean$DID341==7777))
+#For Column DID350, replace '7777','9999' with NA
+DIQ_I_Clean$DID350[DIQ_I_Clean$DID350==9999]<-NA
+length(which(DIQ_I_Clean$DID350==9999))
+DIQ_I_Clean$DID350[DIQ_I_Clean$DID350==7777]<-NA
+length(which(DIQ_I_Clean$DID350==7777))
+#For Column DIQ360, replace '7','9' with NA
+DIQ_I_Clean$DIQ360[DIQ_I_Clean$DIQ360==9]<-NA
+length(which(DIQ_I_Clean$DIQ360==9))
+DIQ_I_Clean$DIQ360[DIQ_I_Clean$DIQ360==7]<-NA
+length(which(DIQ_I_Clean$DIQ360==7))
+#For Column DIQ080, replace '7','9' with NA
+DIQ_I_Clean$DIQ080[DIQ_I_Clean$DIQ080==9]<-NA
+length(which(DIQ_I_Clean$DIQ080==9))
+DIQ_I_Clean$DIQ080[DIQ_I_Clean$DIQ080==7]<-NA
+length(which(DIQ_I_Clean$DIQ080==7))
+```
+
+```{r}
+#For Column DID040, replace '666' to 0.5 which is the median of 1 year
+DIQ_I_Clean$DID040[DIQ_I_Clean$DID040==666]<-0.5
+length(which(DIQ_I_Clean$DID040==0.5))
+
+mean(DIQ_I_Clean$DID040, na.rm = TRUE)
+```
+
+```{r}
+#For column DID060, replace '666' to 0.5 which is the median of 1 month
+DIQ_I_Clean$DID060[DIQ_I_Clean$DID060==666]<-0.5
+length(which(DIQ_I_Clean$DID060==0.5))
+#Column DID060 measures how long taking insulin while the unit is month or year. Column DIQ060U stores the measure of unit for Column DID060. I decided to remake Column DID060 so that it has the same unit of month.
+
+#For column DIQ060U, replace '2'(which means years) with '12'(which means 12 months)  
+DIQ_I_Clean$DIQ060U[DIQ_I_Clean$DIQ060U==2]<-12
+#Multiply these two columns, store values into DID060. Then DID060 measures how long taking insulin in unit of month.
+DIQ_I_Clean$DID060<-DIQ_I_Clean$DIQ060U*DIQ_I_Clean$DID060
+
+```
+
+```{r}
+#Column DID260 measures how often check blood for glucose/sugar while the unit is provided in Column DIQ260U. I decided to remake Column DID260 so that it has the same unit per day.
+
+#For column DIQ260U, replace '2'(which means per week) with '1/7'
+DIQ_I_Clean$DIQ260U[DIQ_I_Clean$DIQ260U==2]<-1/7
+#For column DIQ260U, replace '3'(which means per month) with '1/30'
+DIQ_I_Clean$DIQ260U[DIQ_I_Clean$DIQ260U==3]<-1/30
+#For column DIQ260U, replace '4'(which means per year) with '1/365'
+DIQ_I_Clean$DIQ260U[DIQ_I_Clean$DIQ260U==4]<-1/365
+#Multiply these two columns, store values into DID260. Then DID260 measures how often check blood for glucose/sugar in unit of per day.
+DIQ_I_Clean$DID260<-DIQ_I_Clean$DIQ260U*DIQ_I_Clean$DID260
+
+```
+
+```{r}
+#Column DID350 measures how often do you check your feet while the unit is provided in Column DIQ350U. I decided to remake Column DID350 so that it has the same unit per day.
+
+#For column DIQ350U, replace '2'(which means per week) with '1/7'
+DIQ_I_Clean$DIQ350U[DIQ_I_Clean$DIQ350U==2]<-1/7
+#For column DIQ350U, replace '3'(which means per month) with '1/30'
+DIQ_I_Clean$DIQ350U[DIQ_I_Clean$DIQ350U==3]<-1/30
+#For column DIQ350U, replace '4'(which means per year) with '1/365'
+DIQ_I_Clean$DIQ350U[DIQ_I_Clean$DIQ350U==4]<-1/365
+#Multiply these two columns, store values into DID350. Then DID350 measures how often check blood for glucose/sugar in unit of per day.
+DIQ_I_Clean$DID350<-DIQ_I_Clean$DIQ350U*DIQ_I_Clean$DID350
+
+```
+
+```{r}
+#For column DIQ230, I added a column called DIQ230_Description to indicate the meaning of DIQ230
+library(dplyr)
+
+DIQ_I_Clean<-DIQ_I_Clean %>%
+    mutate(DIQ230_Description = case_when(DIQ_I_Clean$DIQ230==1 ~ '1 year ago or less',
+                                  DIQ_I_Clean$DIQ230==2 ~ 'More than 1 year ago but no more than 2 years ago',
+                                  DIQ_I_Clean$DIQ230==3 ~ 'More than 2 years ago but no more than 5 years ago',
+                                  DIQ_I_Clean$DIQ230==4 ~ 'More than 5 years ago',
+                                  DIQ_I_Clean$DIQ230==5 ~ 'Never'
+                                  ))
+```
+
+```{r}
+#For column DIQ291, I added a column called DIQ291_Description to indicate the meaning of DIQ291
+library(dplyr)
+
+DIQ_I_Clean<-DIQ_I_Clean %>%
+    mutate(DIQ291_Description = case_when(DIQ_I_Clean$DIQ291==1 ~ 'Less than 6',
+                                  DIQ_I_Clean$DIQ291==2 ~ 'Less than 7',
+                                  DIQ_I_Clean$DIQ291==3 ~ 'Less than 8',
+                                  DIQ_I_Clean$DIQ291==4 ~ 'Less than 9',
+                                  DIQ_I_Clean$DIQ291==5 ~ 'Less than 10',
+                                  DIQ_I_Clean$DIQ291==6 ~ 'Provider did not specify goal'
+                                  ))
+```
+
+
+```{r}
+#For column DIQ360, I added a column called DIQ360_Description to indicate the meaning of DIQ360
+library(dplyr)
+
+DIQ_I_Clean<-DIQ_I_Clean %>%
+    mutate(DIQ360_Description = case_when(DIQ_I_Clean$DIQ360==1 ~ 'Less than 1 month',
+                                  DIQ_I_Clean$DIQ360==2 ~ '	1-12 months',
+                                  DIQ_I_Clean$DIQ360==3 ~ '	13-24 months',
+                                  DIQ_I_Clean$DIQ360==4 ~ '	Greater than 2 years',
+                                  DIQ_I_Clean$DIQ360==5 ~ '	Never	'
+                                  
+                                  ))
+```
+
+
+```{r}
+#For Column DID310S, I estimate the value '6666'(Provider did not specify goal) with the mean of unnull value.
+DID310S_copy<-DIQ_I_Clean$DID310S
+DID310S_copy[DID310S_copy==6666]<-NA
+mean(DID310S_copy, na.rm = TRUE)
+DIQ_I_Clean$DID310S[DIQ_I_Clean$DID310S==6666]<-mean(DID310S_copy, na.rm = TRUE)
+```
+
+```{r}
+#For Column DID310D, I estimate the value '6666'(Provider did not specify goal) with the mean of unnull value.
+DID310D_copy<-DIQ_I_Clean$DID310D
+DID310D_copy[DID310D_copy==6666]<-NA
+mean(DID310D_copy, na.rm = TRUE)
+DIQ_I_Clean$DID310D[DIQ_I_Clean$DID310D==6666]<-mean(DID310D_copy, na.rm = TRUE)
+```
+
+```{r}
+#For Column DID320, I estimate the value '6666'(Never had cholesterol test) and '5555'(Never heard of LDL) with the mean of unnull value.
+DID320_copy<-DIQ_I_Clean$DID320
+DID320_copy[DID320_copy==6666]<-NA
+DID320_copy[DID320_copy==5555]<-NA
+mean(DID320_copy, na.rm = TRUE)
+DIQ_I_Clean$DID320[DIQ_I_Clean$DID320==6666]<-mean(DID320_copy, na.rm = TRUE)
+DIQ_I_Clean$DID320[DIQ_I_Clean$DID320==5555]<-mean(DID320_copy, na.rm = TRUE)
+```
+
+```{r}
+#For Column DID330, I estimate the value '6666'(Provider did not specify goal) with the mean of unnull value.
+DID330_copy<-DIQ_I_Clean$DID330
+DID330_copy[DID330_copy==6666]<-NA
+mean(DID330_copy, na.rm = TRUE)
+DIQ_I_Clean$DID330[DIQ_I_Clean$DID330==6666]<-mean(DID330_copy, na.rm = TRUE)
+```
+
+
+```{r}
+#Drop rows with too much missing values, i set the threshold to be less than 46 missing values
+ncol(DIQ_I_Clean)
+nrow(DIQ_I_Clean)
+rowSums(is.na(DIQ_I_Clean))
+#Add a column indicate the number of NA in each row
+DIQ_I_Clean$number_na<-rowSums(is.na(DIQ_I_Clean))
+#Drop rows with 46 or more missing values
+DIQ_I_Cleaned<-subset(DIQ_I_Clean,DIQ_I_Clean$number_na<46)
+```
+
+
+Final cleaned dataset is DIQ_I_Cleaned
+```{r}
+DIQ_I_Cleaned
+```
+
+
+#Verify the counts of each code for various variables
+```{r}
+library('RODBC')
+myconn<-odbcConnect("QBS181","lliu","lliu@qbs181")
+
+#Verify the counts of DIQ010
+(DIQ010_1<-sqlQuery(myconn,"SELECT COUNT(DIQ010)FROM lliu.DIQ_Clean WHERE DID040 between 2 and 78;"))
+(DIQ010_2<-sqlQuery(myconn,"SELECT COUNT(DIQ010)FROM lliu.DIQ_Clean WHERE DIQ010=2;"))
+(DIQ010_3<-sqlQuery(myconn,"SELECT COUNT(DIQ010)FROM lliu.DIQ_Clean WHERE DIQ010=3;"))
+(DIQ010_4<-sqlQuery(myconn,"SELECT COUNT(DIQ010)FROM lliu.DIQ_Clean WHERE DIQ010=7;"))
+(DIQ010_5<-sqlQuery(myconn,"SELECT COUNT(DIQ010)FROM lliu.DIQ_Clean WHERE DIQ010=9;"))
+(DIQ010_6<-sqlQuery(myconn,"SELECT COUNT(*)FROM lliu.DIQ_Clean WHERE DIQ010 is null;"))
+```
+
+```{r}
+#Verify the counts of DID040
+sqlQuery(myconn,"alter table lliu.DIQ_I
+alter column DID040 NVARCHAR(50) NULL;")
+sqlQuery(myconn,"update lliu.DIQ_I set DID040 = NULL where DID040 = 'NA'")
+
+(DID040_1<-sqlQuery(myconn,"SELECT COUNT(DID040)FROM lliu.DIQ_I WHERE DID040 between 2 and 78;"))
+(DID040_2<-sqlQuery(myconn,"SELECT COUNT(DID040)FROM lliu.DIQ_I WHERE DID040=80;"))
+(DID040_3<-sqlQuery(myconn,"SELECT COUNT(DID040)FROM lliu.DIQ_I WHERE DID040=666;"))
+(DID040_4<-sqlQuery(myconn,"SELECT COUNT(DID040)FROM lliu.DIQ_I WHERE DID040=777;"))
+(DID040_5<-sqlQuery(myconn,"SELECT COUNT(DID040)FROM lliu.DIQ_I WHERE DID040=999;"))
+(DID040_6<-sqlQuery(myconn,"SELECT COUNT(*)FROM lliu.DIQ_I WHERE DID040 is null;"))
+```
+
+```{r}
+#Verify the counts of DIQ160
+(DIQ160_1<-sqlQuery(myconn,"SELECT COUNT(DIQ160)FROM lliu.DIQ_Clean WHERE DIQ160=1;"))
+(DIQ160_2<-sqlQuery(myconn,"SELECT COUNT(DIQ160)FROM lliu.DIQ_Clean WHERE DIQ160=2;"))
+(DIQ160_3<-sqlQuery(myconn,"SELECT COUNT(DIQ160)FROM lliu.DIQ_Clean WHERE DIQ160=7;"))
+(DIQ160_4<-sqlQuery(myconn,"SELECT COUNT(DIQ160)FROM lliu.DIQ_Clean WHERE DIQ160=9;"))
+(DIQ160_5<-sqlQuery(myconn,"SELECT COUNT(*)FROM lliu.DIQ_Clean WHERE DIQ160 is NULL;"))
+
+```
+
+```{r}
+#Verify the counts of DIQ170
+(DIQ170_1<-sqlQuery(myconn,"SELECT COUNT(DIQ170)FROM lliu.DIQ_Clean WHERE DIQ170=1;"))
+(DIQ170_2<-sqlQuery(myconn,"SELECT COUNT(DIQ170)FROM lliu.DIQ_Clean WHERE DIQ170=2;"))
+(DIQ170_3<-sqlQuery(myconn,"SELECT COUNT(DIQ170)FROM lliu.DIQ_Clean WHERE DIQ170=7;"))
+(DIQ170_4<-sqlQuery(myconn,"SELECT COUNT(DIQ170)FROM lliu.DIQ_Clean WHERE DIQ170=9;"))
+(DIQ170_5<-sqlQuery(myconn,"SELECT COUNT(*)FROM lliu.DIQ_Clean WHERE DIQ170 is NULL;"))
+
+```
+
+```{r}
+#Verify the counts of DIQ172
+(DIQ172_1<-sqlQuery(myconn,"SELECT COUNT(DIQ172)FROM lliu.DIQ_Clean WHERE DIQ172=1;"))
+(DIQ172_2<-sqlQuery(myconn,"SELECT COUNT(DIQ172)FROM lliu.DIQ_Clean WHERE DIQ172=2;"))
+(DIQ172_3<-sqlQuery(myconn,"SELECT COUNT(DIQ172)FROM lliu.DIQ_Clean WHERE DIQ172=7;"))
+(DIQ172_4<-sqlQuery(myconn,"SELECT COUNT(DIQ172)FROM lliu.DIQ_Clean WHERE DIQ172=9;"))
+(DIQ172_5<-sqlQuery(myconn,"SELECT COUNT(*)FROM lliu.DIQ_Clean WHERE DIQ172 is NULL;"))
+
+```
+
+```{r}
+#Verify the counts of DIQ175A
+(DIQ175A_1<-sqlQuery(myconn,"SELECT COUNT(DIQ175A)FROM lliu.DIQ_Clean WHERE DIQ175A='10';"))
+(DIQ175A_2<-sqlQuery(myconn,"SELECT COUNT(DIQ175A)FROM lliu.DIQ_Clean WHERE DIQ175A='77';"))
+(DIQ175A_3<-sqlQuery(myconn,"SELECT COUNT(DIQ175A)FROM lliu.DIQ_Clean WHERE DIQ175A='99';"))
+(DIQ175A_4<-sqlQuery(myconn,"SELECT COUNT(DIQ175A)FROM lliu.DIQ_Clean WHERE DIQ175A='NA';"))
+```
+
+```{r}
+#Verify the counts of DIQ175B
+(DIQ175B_1<-sqlQuery(myconn,"SELECT COUNT(DIQ175B)FROM lliu.DIQ_Clean WHERE DIQ175B='11';"))
+(DIQ175B_2<-sqlQuery(myconn,"SELECT COUNT(DIQ175B)FROM lliu.DIQ_Clean WHERE DIQ175B='NA';"))
+```
+
+```{r}
+#Verify the counts of DIQ175C
+(DIQ175C_1<-sqlQuery(myconn,"SELECT COUNT(DIQ175C)FROM lliu.DIQ_Clean WHERE DIQ175C='12';"))
+(DIQ175C_2<-sqlQuery(myconn,"SELECT COUNT(DIQ175C)FROM lliu.DIQ_Clean WHERE DIQ175C='NA';"))
+```
+
+```{r}
+#Verify the counts of DIQ175D
+(DIQ175D_1<-sqlQuery(myconn,"SELECT COUNT(DIQ175D)FROM lliu.DIQ_Clean WHERE DIQ175D='13';"))
+(DIQ175D_2<-sqlQuery(myconn,"SELECT COUNT(DIQ175D)FROM lliu.DIQ_Clean WHERE DIQ175D='NA';"))
+```
+
+```{r}
+#Verify the counts of DIQ175E
+(DIQ175E_1<-sqlQuery(myconn,"SELECT COUNT(DIQ175E)FROM lliu.DIQ_Clean WHERE DIQ175E='14';"))
+(DIQ175E_2<-sqlQuery(myconn,"SELECT COUNT(DIQ175E)FROM lliu.DIQ_Clean WHERE DIQ175E='NA';"))
+```
+
+```{r}
+#Verify the counts of DIQ175F
+(DIQ175F_1<-sqlQuery(myconn,"SELECT COUNT(DIQ175F)FROM lliu.DIQ_Clean WHERE DIQ175F='15';"))
+(DIQ175F_2<-sqlQuery(myconn,"SELECT COUNT(DIQ175F)FROM lliu.DIQ_Clean WHERE DIQ175F='NA';"))
+```
+
+```{r}
+#Verify the counts of DIQ175G
+(DIQ175G_1<-sqlQuery(myconn,"SELECT COUNT(DIQ175G)FROM lliu.DIQ_Clean WHERE DIQ175G='16';"))
+(DIQ175G_2<-sqlQuery(myconn,"SELECT COUNT(DIQ175G)FROM lliu.DIQ_Clean WHERE DIQ175G='NA';"))
+```
+
+```{r}
+#Verify the counts of DIQ175H
+(DIQ175H_1<-sqlQuery(myconn,"SELECT COUNT(DIQ175H)FROM lliu.DIQ_Clean WHERE DIQ175H='17';"))
+(DIQ175H_2<-sqlQuery(myconn,"SELECT COUNT(DIQ175H)FROM lliu.DIQ_Clean WHERE DIQ175H='NA';"))
+```
+
+```{r}
+#Verify the counts of DIQ175I
+(DIQ175I_1<-sqlQuery(myconn,"SELECT COUNT(DIQ175I)FROM lliu.DIQ_Clean WHERE DIQ175I='18';"))
+(DIQ175I_2<-sqlQuery(myconn,"SELECT COUNT(DIQ175I)FROM lliu.DIQ_Clean WHERE DIQ175I='NA';"))
+```
+
+```{r}
+#Verify the counts of DIQ175J
+(DIQ175J_1<-sqlQuery(myconn,"SELECT COUNT(DIQ175J)FROM lliu.DIQ_Clean WHERE DIQ175J='19';"))
+(DIQ175J_2<-sqlQuery(myconn,"SELECT COUNT(DIQ175J)FROM lliu.DIQ_Clean WHERE DIQ175J='NA';"))
+```
+
+```{r}
+#Verify the counts of DIQ175K
+(DIQ175K_1<-sqlQuery(myconn,"SELECT COUNT(DIQ175K)FROM lliu.DIQ_Clean WHERE DIQ175K='20';"))
+(DIQ175K_2<-sqlQuery(myconn,"SELECT COUNT(DIQ175K)FROM lliu.DIQ_Clean WHERE DIQ175K='NA';"))
+```
+
+```{r}
+#Verify the counts of DIQ175L
+(DIQ175L_1<-sqlQuery(myconn,"SELECT COUNT(DIQ175L)FROM lliu.DIQ_Clean WHERE DIQ175L='21';"))
+(DIQ175L_2<-sqlQuery(myconn,"SELECT COUNT(DIQ175L)FROM lliu.DIQ_Clean WHERE DIQ175L='NA';"))
+```
+
+```{r}
+#Verify the counts of DIQ175M
+(DIQ175M_1<-sqlQuery(myconn,"SELECT COUNT(DIQ175M)FROM lliu.DIQ_Clean WHERE DIQ175M='22';"))
+(DIQ175M_2<-sqlQuery(myconn,"SELECT COUNT(DIQ175M)FROM lliu.DIQ_Clean WHERE DIQ175M='NA';"))
+```
+
+```{r}
+#Verify the counts of DIQ175N
+(DIQ175N_1<-sqlQuery(myconn,"SELECT COUNT(DIQ175N)FROM lliu.DIQ_Clean WHERE DIQ175N='23';"))
+(DIQ175N_2<-sqlQuery(myconn,"SELECT COUNT(DIQ175N)FROM lliu.DIQ_Clean WHERE DIQ175N='NA';"))
+```
+
+```{r}
+#Verify the counts of DIQ175O
+(DIQ175O_1<-sqlQuery(myconn,"SELECT COUNT(DIQ175O)FROM lliu.DIQ_Clean WHERE DIQ175O='24';"))
+(DIQ175O_2<-sqlQuery(myconn,"SELECT COUNT(DIQ175O)FROM lliu.DIQ_Clean WHERE DIQ175O='NA';"))
+```
+
+```{r}
+#Verify the counts of DIQ175P
+(DIQ175P_1<-sqlQuery(myconn,"SELECT COUNT(DIQ175P)FROM lliu.DIQ_Clean WHERE DIQ175P='25';"))
+(DIQ175P_2<-sqlQuery(myconn,"SELECT COUNT(DIQ175P)FROM lliu.DIQ_Clean WHERE DIQ175P='NA';"))
+```
+
+```{r}
+#Verify the counts of DIQ175Q
+(DIQ175Q_1<-sqlQuery(myconn,"SELECT COUNT(DIQ175Q)FROM lliu.DIQ_Clean WHERE DIQ175Q='26';"))
+(DIQ175Q_2<-sqlQuery(myconn,"SELECT COUNT(DIQ175Q)FROM lliu.DIQ_Clean WHERE DIQ175Q='NA';"))
+```
+
+```{r}
+#Verify the counts of DIQ175R
+(DIQ175R_1<-sqlQuery(myconn,"SELECT COUNT(DIQ175R)FROM lliu.DIQ_Clean WHERE DIQ175R='27';"))
+(DIQ175R_2<-sqlQuery(myconn,"SELECT COUNT(DIQ175R)FROM lliu.DIQ_Clean WHERE DIQ175R='NA';"))
+```
+
+```{r}
+#Verify the counts of DIQ175S
+(DIQ175S_1<-sqlQuery(myconn,"SELECT COUNT(DIQ175S)FROM lliu.DIQ_Clean WHERE DIQ175S='28';"))
+(DIQ175S_2<-sqlQuery(myconn,"SELECT COUNT(DIQ175S)FROM lliu.DIQ_Clean WHERE DIQ175S='NA';"))
+```
+
+```{r}
+#Verify the counts of DIQ175T
+(DIQ175T_1<-sqlQuery(myconn,"SELECT COUNT(DIQ175T)FROM lliu.DIQ_Clean WHERE DIQ175T='29';"))
+(DIQ175T_2<-sqlQuery(myconn,"SELECT COUNT(DIQ175T)FROM lliu.DIQ_Clean WHERE DIQ175T='NA';"))
+```
+
+```{r}
+#Verify the counts of DIQ175U
+(DIQ175U_1<-sqlQuery(myconn,"SELECT COUNT(DIQ175U)FROM lliu.DIQ_Clean WHERE DIQ175U='30';"))
+(DIQ175U_2<-sqlQuery(myconn,"SELECT COUNT(DIQ175U)FROM lliu.DIQ_Clean WHERE DIQ175U='NA';"))
+```
+
+```{r}
+#Verify the counts of DIQ175V
+(DIQ175V_1<-sqlQuery(myconn,"SELECT COUNT(DIQ175V)FROM lliu.DIQ_Clean WHERE DIQ175V='31';"))
+(DIQ175V_2<-sqlQuery(myconn,"SELECT COUNT(DIQ175V)FROM lliu.DIQ_Clean WHERE DIQ175V='NA';"))
+```
+
+```{r}
+#Verify the counts of DIQ175W
+(DIQ175W_1<-sqlQuery(myconn,"SELECT COUNT(DIQ175W)FROM lliu.DIQ_Clean WHERE DIQ175W='32';"))
+(DIQ175W_2<-sqlQuery(myconn,"SELECT COUNT(DIQ175W)FROM lliu.DIQ_Clean WHERE DIQ175W='NA';"))
+```
+
+```{r}
+#Verify the counts of DIQ175X
+(DIQ175X_1<-sqlQuery(myconn,"SELECT COUNT(DIQ175X)FROM lliu.DIQ_Clean WHERE DIQ175X='33';"))
+(DIQ175X_2<-sqlQuery(myconn,"SELECT COUNT(DIQ175X)FROM lliu.DIQ_Clean WHERE DIQ175X='NA';"))
+```
+
+```{r}
+#Verify the counts of DIQ180
+(DIQ180_1<-sqlQuery(myconn,"SELECT COUNT(DIQ180)FROM lliu.DIQ_Clean WHERE DIQ180=1;"))
+(DIQ180_2<-sqlQuery(myconn,"SELECT COUNT(DIQ180)FROM lliu.DIQ_Clean WHERE DIQ180=2;"))
+(DIQ180_3<-sqlQuery(myconn,"SELECT COUNT(DIQ180)FROM lliu.DIQ_Clean WHERE DIQ180=7;"))
+(DIQ180_4<-sqlQuery(myconn,"SELECT COUNT(DIQ180)FROM lliu.DIQ_Clean WHERE DIQ180=9;"))
+(DIQ180_5<-sqlQuery(myconn,"SELECT COUNT(*)FROM lliu.DIQ_Clean WHERE DIQ180 is NULL;"))
+```
+
+```{r}
+#Verify the counts of DIQ050
+(DIQ050_1<-sqlQuery(myconn,"SELECT COUNT(DIQ050)FROM lliu.DIQ_Clean WHERE DIQ050=1;"))
+(DIQ050_2<-sqlQuery(myconn,"SELECT COUNT(DIQ050)FROM lliu.DIQ_Clean WHERE DIQ050=2;"))
+(DIQ050_3<-sqlQuery(myconn,"SELECT COUNT(DIQ050)FROM lliu.DIQ_Clean WHERE DIQ050=7;"))
+(DIQ050_4<-sqlQuery(myconn,"SELECT COUNT(DIQ050)FROM lliu.DIQ_Clean WHERE DIQ050=9;"))
+(DIQ050_5<-sqlQuery(myconn,"SELECT COUNT(*)FROM lliu.DIQ_Clean WHERE DIQ050 is NULL;"))
+```
+
+```{r}
+#Verify the counts of DID060
+sqlQuery(myconn,"alter table lliu.DIQ_Clean
+alter column DID060 NVARCHAR(50) NULL;")
+sqlQuery(myconn,"update lliu.DIQ_Clean set DID060 = NULL where DID060 = 'NA'")
+(DID060_1<-sqlQuery(myconn,"SELECT COUNT(DID060)FROM lliu.DIQ_Clean WHERE DID060 BETWEEN 1 AND 55;"))
+(DID060_2<-sqlQuery(myconn,"SELECT COUNT(DID060)FROM lliu.DIQ_Clean WHERE DID060='666';"))
+(DID060_3<-sqlQuery(myconn,"SELECT COUNT(DID060)FROM lliu.DIQ_Clean WHERE DID060='777';"))
+(DID060_4<-sqlQuery(myconn,"SELECT COUNT(DID060)FROM lliu.DIQ_Clean WHERE DID060='999';"))
+(DID060_5<-sqlQuery(myconn,"SELECT COUNT(*)FROM lliu.DIQ_Clean WHERE DID060 is NULL;"))
+```
+
+```{r}
+#Verify the counts of DIQ060U
+(DIQ060U_1<-sqlQuery(myconn,"SELECT COUNT(DIQ060U)FROM lliu.DIQ_Clean WHERE DIQ060U='1';"))
+(DIQ060U_2<-sqlQuery(myconn,"SELECT COUNT(DIQ060U)FROM lliu.DIQ_Clean WHERE DIQ060U='2';"))
+(DIQ060U_3<-sqlQuery(myconn,"SELECT COUNT(DIQ060U)FROM lliu.DIQ_Clean WHERE DIQ060U='NA';"))
+
+```
+
+```{r}
+#Verify the counts of DIQ070
+(DIQ070_1<-sqlQuery(myconn,"SELECT COUNT(DIQ070)FROM lliu.DIQ_Clean WHERE DIQ070='1';"))
+(DIQ070_2<-sqlQuery(myconn,"SELECT COUNT(DIQ070)FROM lliu.DIQ_Clean WHERE DIQ070='2';"))
+(DIQ070_3<-sqlQuery(myconn,"SELECT COUNT(DIQ070)FROM lliu.DIQ_Clean WHERE DIQ070='7';"))
+(DIQ070_4<-sqlQuery(myconn,"SELECT COUNT(DIQ070)FROM lliu.DIQ_Clean WHERE DIQ070='9';"))
+(DIQ070_5<-sqlQuery(myconn,"SELECT COUNT(DIQ070)FROM lliu.DIQ_Clean WHERE DIQ070='NA';"))
+```
+
+```{r}
+#Verify the counts of DIQ230
+(DIQ230_1<-sqlQuery(myconn,"SELECT COUNT(DIQ230)FROM lliu.DIQ_Clean WHERE DIQ230='1';"))
+(DIQ230_2<-sqlQuery(myconn,"SELECT COUNT(DIQ230)FROM lliu.DIQ_Clean WHERE DIQ230='2';"))
+(DIQ230_3<-sqlQuery(myconn,"SELECT COUNT(DIQ230)FROM lliu.DIQ_Clean WHERE DIQ230='3';"))
+(DIQ230_4<-sqlQuery(myconn,"SELECT COUNT(DIQ230)FROM lliu.DIQ_Clean WHERE DIQ230='4';"))
+(DIQ230_5<-sqlQuery(myconn,"SELECT COUNT(DIQ230)FROM lliu.DIQ_Clean WHERE DIQ230='5';"))
+(DIQ230_6<-sqlQuery(myconn,"SELECT COUNT(DIQ230)FROM lliu.DIQ_Clean WHERE DIQ230='7';"))
+(DIQ230_7<-sqlQuery(myconn,"SELECT COUNT(DIQ230)FROM lliu.DIQ_Clean WHERE DIQ230='9';"))
+(DIQ230_8<-sqlQuery(myconn,"SELECT COUNT(DIQ230)FROM lliu.DIQ_Clean WHERE DIQ230='NA';"))
+```
+
+```{r}
+#Verify the counts of DIQ240
+(DIQ240_1<-sqlQuery(myconn,"SELECT COUNT(DIQ240)FROM lliu.DIQ_Clean WHERE DIQ240='1';"))
+(DIQ240_2<-sqlQuery(myconn,"SELECT COUNT(DIQ240)FROM lliu.DIQ_Clean WHERE DIQ240='2';"))
+(DIQ240_3<-sqlQuery(myconn,"SELECT COUNT(DIQ240)FROM lliu.DIQ_Clean WHERE DIQ240='7';"))
+(DIQ240_4<-sqlQuery(myconn,"SELECT COUNT(DIQ240)FROM lliu.DIQ_Clean WHERE DIQ240='9';"))
+(DIQ240_5<-sqlQuery(myconn,"SELECT COUNT(DIQ240)FROM lliu.DIQ_Clean WHERE DIQ240='NA';"))
+```
+
+```{r}
+#Verify the counts of DID250
+sqlQuery(myconn,"alter table lliu.DIQ_Clean
+alter column DID250 NVARCHAR(50) NULL;")
+sqlQuery(myconn,"update lliu.DIQ_Clean set DID250 = NULL where DID250 = 'NA'")
+(DID250_1<-sqlQuery(myconn,"SELECT COUNT(DID250)FROM lliu.DIQ_Clean WHERE DID250 BETWEEN 1 AND 60;"))
+(DID250_2<-sqlQuery(myconn,"SELECT COUNT(DID250)FROM lliu.DIQ_Clean WHERE DID250='0';"))
+(DID250_3<-sqlQuery(myconn,"SELECT COUNT(DID250)FROM lliu.DIQ_Clean WHERE DID250='7777';"))
+(DID250_4<-sqlQuery(myconn,"SELECT COUNT(DID250)FROM lliu.DIQ_Clean WHERE DID250='9999';"))
+(DID250_5<-sqlQuery(myconn,"SELECT COUNT(*)FROM lliu.DIQ_Clean WHERE DID250 is NULL;"))
+```
+
+```{r}
+#Verify the counts of DID260
+sqlQuery(myconn,"alter table lliu.DIQ_Clean
+alter column DID260 NVARCHAR(50) NULL;")
+sqlQuery(myconn,"update lliu.DIQ_Clean set DID260 = NULL where DID260 = 'NA'")
+(DID260_1<-sqlQuery(myconn,"SELECT COUNT(DID260)FROM lliu.DIQ_Clean WHERE DID260 BETWEEN 1 AND 15;"))
+(DID260_2<-sqlQuery(myconn,"SELECT COUNT(DID260)FROM lliu.DIQ_Clean WHERE DID260='0';"))
+(DID260_3<-sqlQuery(myconn,"SELECT COUNT(DID260)FROM lliu.DIQ_Clean WHERE DID260='777';"))
+(DID260_4<-sqlQuery(myconn,"SELECT COUNT(DID260)FROM lliu.DIQ_Clean WHERE DID260='999';"))
+(DID260_5<-sqlQuery(myconn,"SELECT COUNT(*)FROM lliu.DIQ_Clean WHERE DID260 is NULL;"))
+```
+
+```{r}
+#Verify the counts of DIQ260U
+(DIQ260U_1<-sqlQuery(myconn,"SELECT COUNT(DIQ260U)FROM lliu.DIQ_Clean WHERE DIQ260U='1';"))
+(DIQ260U_2<-sqlQuery(myconn,"SELECT COUNT(DIQ260U)FROM lliu.DIQ_Clean WHERE DIQ260U='2';"))
+(DIQ260U_3<-sqlQuery(myconn,"SELECT COUNT(DIQ260U)FROM lliu.DIQ_Clean WHERE DIQ260U='3';"))
+(DIQ260U_4<-sqlQuery(myconn,"SELECT COUNT(DIQ260U)FROM lliu.DIQ_Clean WHERE DIQ260U='4';"))
+(DIQ260U_5<-sqlQuery(myconn,"SELECT COUNT(DIQ260U)FROM lliu.DIQ_Clean WHERE DIQ260U='NA';"))
+```
+
+```{r}
+#Verify the counts of DIQ275
+(DIQ275_1<-sqlQuery(myconn,"SELECT COUNT(DIQ275)FROM lliu.DIQ_Clean WHERE DIQ275='1';"))
+(DIQ275_2<-sqlQuery(myconn,"SELECT COUNT(DIQ275)FROM lliu.DIQ_Clean WHERE DIQ275='2';"))
+(DIQ275_3<-sqlQuery(myconn,"SELECT COUNT(DIQ275)FROM lliu.DIQ_Clean WHERE DIQ275='7';"))
+(DIQ275_4<-sqlQuery(myconn,"SELECT COUNT(DIQ275)FROM lliu.DIQ_Clean WHERE DIQ275='9';"))
+(DIQ275_5<-sqlQuery(myconn,"SELECT COUNT(DIQ275)FROM lliu.DIQ_Clean WHERE DIQ275='NA';"))
+```
+
+```{r}
+#Verify the counts of DIQ280
+sqlQuery(myconn,"alter table lliu.DIQ_Clean
+alter column DIQ280 DECIMAL NULL;")
+sqlQuery(myconn,"update lliu.DIQ_Clean set DIQ280 = NULL where DIQ280 = 'NA'")
+(DIQ280_1<-sqlQuery(myconn,"SELECT COUNT(DIQ280)FROM lliu.DIQ_Clean WHERE DIQ280 BETWEEN 2 AND 18.5;"))
+(DIQ280_2<-sqlQuery(myconn,"SELECT COUNT(DIQ280)FROM lliu.DIQ_Clean WHERE DIQ280='777';"))
+(DIQ280_3<-sqlQuery(myconn,"SELECT COUNT(DIQ280)FROM lliu.DIQ_Clean WHERE DIQ280='999';"))
+(DIQ280_4<-sqlQuery(myconn,"SELECT COUNT(*)FROM lliu.DIQ_Clean WHERE DIQ280 is NULL;"))
+```
+
+```{r}
+#Verify the counts of DIQ291
+(DIQ291_1<-sqlQuery(myconn,"SELECT COUNT(DIQ291)FROM lliu.DIQ_Clean WHERE DIQ291='1';"))
+(DIQ291_2<-sqlQuery(myconn,"SELECT COUNT(DIQ291)FROM lliu.DIQ_Clean WHERE DIQ291='2';"))
+(DIQ291_3<-sqlQuery(myconn,"SELECT COUNT(DIQ291)FROM lliu.DIQ_Clean WHERE DIQ291='3';"))
+(DIQ291_4<-sqlQuery(myconn,"SELECT COUNT(DIQ291)FROM lliu.DIQ_Clean WHERE DIQ291='4';"))
+(DIQ291_5<-sqlQuery(myconn,"SELECT COUNT(DIQ291)FROM lliu.DIQ_Clean WHERE DIQ291='5';"))
+(DIQ291_6<-sqlQuery(myconn,"SELECT COUNT(DIQ291)FROM lliu.DIQ_Clean WHERE DIQ291='6';"))
+(DIQ291_7<-sqlQuery(myconn,"SELECT COUNT(DIQ291)FROM lliu.DIQ_Clean WHERE DIQ291='77';"))
+(DIQ291_8<-sqlQuery(myconn,"SELECT COUNT(DIQ291)FROM lliu.DIQ_Clean WHERE DIQ291='99';"))
+(DIQ291_9<-sqlQuery(myconn,"SELECT COUNT(DIQ291)FROM lliu.DIQ_Clean WHERE DIQ291='NA';"))
+```
+
+```{r}
+#Verify the counts of DIQ300S
+sqlQuery(myconn,"alter table lliu.DIQ_Clean
+alter column DIQ300S NVARCHAR(50) NULL;")
+sqlQuery(myconn,"update lliu.DIQ_Clean set DIQ300S = NULL where DIQ300S = 'NA'")
+(DIQ300S_1<-sqlQuery(myconn,"SELECT COUNT(DIQ300S)FROM lliu.DIQ_Clean WHERE DIQ300S BETWEEN 80 AND 201;"))
+(DIQ300S_2<-sqlQuery(myconn,"SELECT COUNT(DIQ300S)FROM lliu.DIQ_Clean WHERE DIQ300S='7777';"))
+(DIQ300S_3<-sqlQuery(myconn,"SELECT COUNT(DIQ300S)FROM lliu.DIQ_Clean WHERE DIQ300S='9999';"))
+(DIQ300S_4<-sqlQuery(myconn,"SELECT COUNT(*)FROM lliu.DIQ_Clean WHERE DIQ300S is NULL;"))
+```
+
+```{r}
+#Verify the counts of DIQ300D
+sqlQuery(myconn,"alter table lliu.DIQ_Clean
+alter column DIQ300D NVARCHAR(50) NULL;")
+sqlQuery(myconn,"update lliu.DIQ_Clean set DIQ300D = NULL where DIQ300D = 'NA'")
+(DIQ300D_1<-sqlQuery(myconn,"SELECT COUNT(DIQ300D)FROM lliu.DIQ_Clean WHERE DIQ300D BETWEEN 17 AND 251;"))
+(DIQ300D_2<-sqlQuery(myconn,"SELECT COUNT(DIQ300D)FROM lliu.DIQ_Clean WHERE DIQ300D='7777';"))
+(DIQ300D_3<-sqlQuery(myconn,"SELECT COUNT(DIQ300D)FROM lliu.DIQ_Clean WHERE DIQ300D='9999';"))
+(DIQ300D_4<-sqlQuery(myconn,"SELECT COUNT(*)FROM lliu.DIQ_Clean WHERE DIQ300D is NULL;"))
+```
+
+```{r}
+#Verify the counts of DID310S
+sqlQuery(myconn,"alter table lliu.DIQ_Clean
+alter column DID310S NVARCHAR(50) NULL;")
+sqlQuery(myconn,"update lliu.DIQ_Clean set DID310S = NULL where DID310S = 'NA'")
+(DID310S_1<-sqlQuery(myconn,"SELECT COUNT(DID310S)FROM lliu.DIQ_Clean WHERE DID310S BETWEEN 80 AND 175;"))
+(DID310S_2<-sqlQuery(myconn,"SELECT COUNT(DID310S)FROM lliu.DIQ_Clean WHERE DID310S='6666';"))
+(DID310S_3<-sqlQuery(myconn,"SELECT COUNT(DID310S)FROM lliu.DIQ_Clean WHERE DID310S='7777';"))
+(DID310S_4<-sqlQuery(myconn,"SELECT COUNT(DID310S)FROM lliu.DIQ_Clean WHERE DID310S='9999';"))
+(DID310S_5<-sqlQuery(myconn,"SELECT COUNT(*)FROM lliu.DIQ_Clean WHERE DID310S is NULL;"))
+```
+
+```{r}
+#Verify the counts of DID310D
+sqlQuery(myconn,"alter table lliu.DIQ_Clean
+alter column DID310D NVARCHAR(50) NULL;")
+sqlQuery(myconn,"update lliu.DIQ_Clean set DID310D = NULL where DID310D = 'NA'")
+(DID310D_1<-sqlQuery(myconn,"SELECT COUNT(DID310D)FROM lliu.DIQ_Clean WHERE DID310D BETWEEN 18 AND 140;"))
+(DID310D_2<-sqlQuery(myconn,"SELECT COUNT(DID310D)FROM lliu.DIQ_Clean WHERE DID310D='6666';"))
+(DID310D_3<-sqlQuery(myconn,"SELECT COUNT(DID310D)FROM lliu.DIQ_Clean WHERE DID310D='7777';"))
+(DID310D_4<-sqlQuery(myconn,"SELECT COUNT(DID310D)FROM lliu.DIQ_Clean WHERE DID310D='9999';"))
+(DID310D_5<-sqlQuery(myconn,"SELECT COUNT(*)FROM lliu.DIQ_Clean WHERE DID310D is NULL;"))
+```
+
+```{r}
+#Verify the counts of DID320
+sqlQuery(myconn,"alter table lliu.DIQ_Clean
+alter column DID320 NVARCHAR(50) NULL;")
+sqlQuery(myconn,"update lliu.DIQ_Clean set DID320 = NULL where DID320 = 'NA'")
+(DID320_1<-sqlQuery(myconn,"SELECT COUNT(DID320)FROM lliu.DIQ_Clean WHERE DID320 BETWEEN 4 AND 520;"))
+(DID320_2<-sqlQuery(myconn,"SELECT COUNT(DID320)FROM lliu.DIQ_Clean WHERE DID320='5555';"))
+(DID320_3<-sqlQuery(myconn,"SELECT COUNT(DID320)FROM lliu.DIQ_Clean WHERE DID320='6666';"))
+(DID320_4<-sqlQuery(myconn,"SELECT COUNT(DID320)FROM lliu.DIQ_Clean WHERE DID320='7777';"))
+(DID320_5<-sqlQuery(myconn,"SELECT COUNT(DID320)FROM lliu.DIQ_Clean WHERE DID320='9999';"))
+(DID320_6<-sqlQuery(myconn,"SELECT COUNT(*)FROM lliu.DIQ_Clean WHERE DID320 is NULL;"))
+```
+
+```{r}
+#Verify the counts of DID330
+sqlQuery(myconn,"alter table lliu.DIQ_Clean
+alter column DID330 NVARCHAR(50) NULL;")
+sqlQuery(myconn,"update lliu.DIQ_Clean set DID330 = NULL where DID330 = 'NA'")
+(DID330_1<-sqlQuery(myconn,"SELECT COUNT(DID330)FROM lliu.DIQ_Clean WHERE DID330 BETWEEN 6 AND 205;"))
+(DID330_2<-sqlQuery(myconn,"SELECT COUNT(DID330)FROM lliu.DIQ_Clean WHERE DID330='6666';"))
+(DID330_3<-sqlQuery(myconn,"SELECT COUNT(DID330)FROM lliu.DIQ_Clean WHERE DID330='7777';"))
+(DID330_4<-sqlQuery(myconn,"SELECT COUNT(DID330)FROM lliu.DIQ_Clean WHERE DID330='9999';"))
+(DID330_5<-sqlQuery(myconn,"SELECT COUNT(*)FROM lliu.DIQ_Clean WHERE DID330 is NULL;"))
+```
+
+```{r}
+#Verify the counts of DID341
+sqlQuery(myconn,"alter table lliu.DIQ_Clean
+alter column DID341 NVARCHAR(50) NULL;")
+sqlQuery(myconn,"update lliu.DIQ_Clean set DID341 = NULL where DID341 = 'NA'")
+(DID341_1<-sqlQuery(myconn,"SELECT COUNT(DID341)FROM lliu.DIQ_Clean WHERE DID341 BETWEEN 1 AND 34;"))
+(DID341_2<-sqlQuery(myconn,"SELECT COUNT(DID341)FROM lliu.DIQ_Clean WHERE DID341='0';"))
+(DID341_3<-sqlQuery(myconn,"SELECT COUNT(DID341)FROM lliu.DIQ_Clean WHERE DID341='7777';"))
+(DID341_4<-sqlQuery(myconn,"SELECT COUNT(DID341)FROM lliu.DIQ_Clean WHERE DID341='9999';"))
+(DID341_5<-sqlQuery(myconn,"SELECT COUNT(*)FROM lliu.DIQ_Clean WHERE DID341 is NULL;"))
+```
+
+```{r}
+#Verify the counts of DID350
+sqlQuery(myconn,"alter table lliu.DIQ_Clean
+alter column DID350 NVARCHAR(50) NULL;")
+sqlQuery(myconn,"update lliu.DIQ_Clean set DID350 = NULL where DID350 = 'NA'")
+(DID350_1<-sqlQuery(myconn,"SELECT COUNT(DID350)FROM lliu.DIQ_Clean WHERE DID350 BETWEEN 1 AND 20;"))
+(DID350_2<-sqlQuery(myconn,"SELECT COUNT(DID350)FROM lliu.DIQ_Clean WHERE DID350='0';"))
+(DID350_3<-sqlQuery(myconn,"SELECT COUNT(DID350)FROM lliu.DIQ_Clean WHERE DID350='7777';"))
+(DID350_4<-sqlQuery(myconn,"SELECT COUNT(DID350)FROM lliu.DIQ_Clean WHERE DID350='9999';"))
+(DID350_5<-sqlQuery(myconn,"SELECT COUNT(*)FROM lliu.DIQ_Clean WHERE DID350 is NULL;"))
+```
+
+```{r}
+#Verify the counts of DIQ350U
+(DIQ350U_1<-sqlQuery(myconn,"SELECT COUNT(DIQ350U)FROM lliu.DIQ_Clean WHERE DIQ350U='1';"))
+(DIQ350U_2<-sqlQuery(myconn,"SELECT COUNT(DIQ350U)FROM lliu.DIQ_Clean WHERE DIQ350U='2';"))
+(DIQ350U_3<-sqlQuery(myconn,"SELECT COUNT(DIQ350U)FROM lliu.DIQ_Clean WHERE DIQ350U='3';"))
+(DIQ350U_4<-sqlQuery(myconn,"SELECT COUNT(DIQ350U)FROM lliu.DIQ_Clean WHERE DIQ350U='4';"))
+(DIQ350U_5<-sqlQuery(myconn,"SELECT COUNT(DIQ350U)FROM lliu.DIQ_Clean WHERE DIQ350U='NA';"))
+
+```
+
+```{r}
+#Verify the counts of DIQ360
+(DIQ360_1<-sqlQuery(myconn,"SELECT COUNT(DIQ360)FROM lliu.DIQ_Clean WHERE DIQ360='1';"))
+(DIQ360_2<-sqlQuery(myconn,"SELECT COUNT(DIQ360)FROM lliu.DIQ_Clean WHERE DIQ360='2';"))
+(DIQ360_3<-sqlQuery(myconn,"SELECT COUNT(DIQ360)FROM lliu.DIQ_Clean WHERE DIQ360='3';"))
+(DIQ360_4<-sqlQuery(myconn,"SELECT COUNT(DIQ360)FROM lliu.DIQ_Clean WHERE DIQ360='4';"))
+(DIQ360_5<-sqlQuery(myconn,"SELECT COUNT(DIQ360)FROM lliu.DIQ_Clean WHERE DIQ360='5';"))
+(DIQ360_6<-sqlQuery(myconn,"SELECT COUNT(DIQ360)FROM lliu.DIQ_Clean WHERE DIQ360='7';"))
+(DIQ360_7<-sqlQuery(myconn,"SELECT COUNT(DIQ360)FROM lliu.DIQ_Clean WHERE DIQ360='9';"))
+(DIQ360_8<-sqlQuery(myconn,"SELECT COUNT(DIQ360)FROM lliu.DIQ_Clean WHERE DIQ360='NA';"))
+```
+
+```{r}
+#Verify the counts of DIQ080
+(DIQ080_1<-sqlQuery(myconn,"SELECT COUNT(DIQ080)FROM lliu.DIQ_Clean WHERE DIQ080='1';"))
+(DIQ080_2<-sqlQuery(myconn,"SELECT COUNT(DIQ080)FROM lliu.DIQ_Clean WHERE DIQ080='2';"))
+(DIQ080_3<-sqlQuery(myconn,"SELECT COUNT(DIQ080)FROM lliu.DIQ_Clean WHERE DIQ080='7';"))
+(DIQ080_4<-sqlQuery(myconn,"SELECT COUNT(DIQ080)FROM lliu.DIQ_Clean WHERE DIQ080='9';"))
+(DIQ080_5<-sqlQuery(myconn,"SELECT COUNT(DIQ080)FROM lliu.DIQ_Clean WHERE DIQ080='NA';"))
+```
