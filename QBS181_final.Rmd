@@ -1,0 +1,98 @@
+---
+title: "qbs181_final"
+author: "Lili Liu"
+date: "November 26, 2019"
+output: pdf_document
+---
+
+```{r}
+ICBP <- read.csv(file.choose())
+head(ICBP)
+
+#Convert BP alerts to BP status
+names(ICBP)[4]<-'BPStatus'
+#Add a column ControlStatus
+ICBP$ControlStatus[ICBP$BPStatus=='Hypo1'] <- 1
+ICBP$ControlStatus[ICBP$BPStatus=='Normal'] <- 1
+ICBP$ControlStatus[ICBP$BPStatus=='Hypo2'] <- 0
+ICBP$ControlStatus[ICBP$BPStatus=='HTN1'] <- 0
+ICBP$ControlStatus[ICBP$BPStatus=='HTN2'] <- 0
+ICBP$ControlStatus[ICBP$BPStatus=='HTN3'] <- 0
+
+head(ICBP,10)
+library('RODBC')
+myconn<-odbcConnect("QBS181","lliu","lliu@qbs181")
+Demographics<-sqlQuery(myconn,"select * from dbo.Demographics")
+head(Demographics)
+#Merge ICBP with Demographics 
+ICBP_Demo<-merge(ICBP, Demographics, by.x = "ID", by.y = "contactid")
+head(ICBP_Demo,10)
+library(lubridate)
+library(tidyr)
+library(dplyr)
+length(unique(ICBP_Demo$ID))
+#Create a new variable called intervention_date
+ICBP_Demo <- ICBP_Demo%>%
+  group_by(ID)%>%
+  mutate(intervention_date=mdy(tri_enrollmentcompletedate)+days(ObservedTime))
+
+#Create 12 week interval avg score
+uniqueID <- unique(ICBP_Demo$ID)
+ICBP_Demo_patient <- c()
+for(i in 1:143){
+ICBP_Demo_patient[[i]]<-ICBP_Demo%>%select(ID, ControlStatus, intervention_date)%>%filter(ID==uniqueID[i])%>%arrange(intervention_date)
+}
+
+for(i in 1:143){
+ICBP_Demo_patient[[i]]$num_days <- difftime(ICBP_Demo_patient[[i]]$intervention_date, min(ICBP_Demo_patient[[i]]$intervention_date)-1,units = "days")
+ICBP_Demo_patient[[i]]$num_week <- difftime(ICBP_Demo_patient[[i]]$intervention_date, min(ICBP_Demo_patient[[i]]$intervention_date)-1,units = "weeks")
+}
+ICBP_Demo_patient[[2]]
+
+
+score_baseline <- list()
+for(i in 1:143){
+score_baseline[[i]] <- mean(ICBP_Demo_patient[[i]]$ControlStatus[which(ICBP_Demo_patient[[i]]$num_week>=0 & ICBP_Demo_patient[[i]]$num_week<1)])
+}
+
+score_followup <- list()
+for(i in 1:143){
+score_followup[[i]] <- mean(ICBP_Demo_patient[[i]]$ControlStatus[which(ICBP_Demo_patient[[i]]$num_week>=11 & ICBP_Demo_patient[[i]]$num_week<12)])
+}
+
+head(score_baseline,10)
+head(score_followup,10)
+#Compare the baseline and followup
+compare_scores <- data.frame('baseline'=t(score_baseline),'followup'=t(score_followup))
+
+compare <- matrix(ncol = 2, nrow = 143)
+compare <- data.frame(compare)
+compare$ID <- unique(ICBP_Demo$ID)
+compare$basline <- score_baseline
+compare$followup <- score_followup
+
+#How many customers were brought from uncontrolled regime to controlled regime after 12 weeks of intervention
+length(compare$ID[which(compare$basline<1 & compare$followup==1)])
+
+
+```
+
+```{r}
+library('RODBC')
+myconn<-odbcConnect("QBS181","lliu","lliu@qbs181")
+Conditions<-sqlQuery(myconn,"select * from dbo.Conditions")
+TextMessages<-sqlQuery(myconn,"select * from dbo.TextMessages")
+#Merge these three tables
+Text_Cond<-merge(TextMessages, Conditions, by.x = "tri_contactId", by.y = "tri_patientid")
+Text_Cond_Demo<-merge(Text_Cond, Demographics, by.x = "tri_contactId", by.y = "contactid")
+#Format the TextSentDate
+Text_Cond_Demo$TextSentDate<- as.Date(Text_Cond_Demo$TextSentDate,format="%m/%d/%y")
+#Get final data with 1 id per row
+Text_Cond_Demo_final <- Text_Cond_Demo%>%
+  group_by(tri_contactId)%>%
+  slice(which.max(TextSentDate))
+
+head(Text_Cond_Demo_final,10)
+
+
+```
